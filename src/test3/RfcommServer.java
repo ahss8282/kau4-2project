@@ -1,4 +1,6 @@
-package test3; // ÀÚ¹Ù ºí·çÅõ½º client °Ë»ö°á°ú
+package test3; // ï¿½Ú¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ client ï¿½Ë»ï¿½ï¿½ï¿½ï¿½
+
+
 
 import java.io.IOException;  
 import java.util.Date;  
@@ -58,17 +60,21 @@ public class RfcommServer {
       
         public void run() {  
             try {  
+            	Message MSG = new Message();
+            	
                 byte[] buff = new byte[512];  
                 int n = 0;  
                 while ((n = btIn.read(buff)) > 0) {  
                     String data = new String(buff, 0, n);  
-                    log("Receive:"+data); 
-                    data = data + "\n";
-                    btOut.write(data.toUpperCase().getBytes());
+                    
+                    MSG.handle(data);
+                    
+                    log("Receive:"+data);  
+                    btOut.write(data.toUpperCase().getBytes());  
                     btOut.flush();  
                 }  
             } catch (Throwable t) {  
-                t.printStackTrace();  //asdf
+                t.printStackTrace();  
             } finally {  
                 close();  
             }  
@@ -96,4 +102,4 @@ public class RfcommServer {
     private static void log(String msg) {  
         System.out.println("["+(new Date()) + "] " + msg);  
     }  
-}  
+}  }  
