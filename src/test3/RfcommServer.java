@@ -1,14 +1,13 @@
-package test3; // �ڹ� ������� client �˻����
-
-
-
+package test3;
 import java.io.IOException;  
 import java.util.Date;  
+
 import javax.bluetooth.LocalDevice;  
 import javax.bluetooth.ServiceRecord;  
 import javax.microedition.io.Connector;  
 import javax.microedition.io.StreamConnection;  
 import javax.microedition.io.StreamConnectionNotifier;  
+
 import java.io.InputStream;  
 import java.io.OutputStream;  
   
@@ -21,7 +20,9 @@ public class RfcommServer {
     //static final String serverUUID = "11111111111111111111111111111123";  
   
     private StreamConnectionNotifier server = null;  
-  
+    
+    
+    
     public RfcommServer() throws IOException {  
   
         server = (StreamConnectionNotifier) Connector.open(  
@@ -60,14 +61,51 @@ public class RfcommServer {
       
         public void run() {  
             try {  
-            	Message MSG = new Message();
+            	EventPerformed event = new EventPerformed();
             	
                 byte[] buff = new byte[512];  
                 int n = 0;  
                 while ((n = btIn.read(buff)) > 0) {  
                     String data = new String(buff, 0, n);  
                     
-                    MSG.handle(data);
+            		if (data.equals("lclick")) {
+            			event.left_clicked();
+            		}
+            		if (data.equals("lpress")) {
+            			event.pressed();
+            		}
+            		if (data.equals("lrelease")) {
+            			event.released();
+            		}
+            		if (data.equals("rclick")) {
+            			event.right_clicked();
+            		}
+            		if (data.equals("double")) {
+            			event.left_doubleClicked();
+            		}
+            		if (data.equals("upwheel")) {
+            			event.upWheeled();
+            		}
+            		if (data.equals("downwheel")) {
+            			event.downWheeled();
+            		}
+            		if (data.equals("mcrestart")) {
+            			event.startCraeteMacro();
+            		}
+            		if (data.equals("mcrestop")) {
+            			event.stopCraeteMacro();
+            		}
+            		if (data.equals("mdelete")) {
+            			event.deleteMacro();
+            		}
+            		if (data.equals("mrunstart")) {
+            			event.runMacro();
+            		}
+            		if (data.equals("mrunstop")) {
+            			event.stopMacro();
+            		} else {
+            			// 필터로 넘기기 진섭(data);
+            		}
                     
                     log("Receive:"+data);  
                     btOut.write(data.toUpperCase().getBytes());  
@@ -87,6 +125,7 @@ public class RfcommServer {
         }  
     }  
   
+    
   
     public static void main(String[] args) throws Exception {  
           
@@ -102,4 +141,4 @@ public class RfcommServer {
     private static void log(String msg) {  
         System.out.println("["+(new Date()) + "] " + msg);  
     }  
-}  }  
+}  
