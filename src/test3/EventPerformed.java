@@ -11,7 +11,7 @@ public class EventPerformed {
 	 int macroSetOn; // 1이면 매크로 세팅모드
 	 int currentMacroP;  // 매크로에 세팅된 좌료를 저장하는 배열의 인덱스
 	 Point[] macroPoint = new Point[50]; // 매크로 좌표 저장 배열
-	 Thread thread;
+	 Thread mThread;
 	
 	public EventPerformed() {
 		macroSetOn = 0; // 1이면 매크로 세팅모드
@@ -138,12 +138,12 @@ public class EventPerformed {
 
 	public void runMacro() {
 		Macro macro = new Macro(currentMacroP,macroPoint);
-		thread = new Thread(macro);
-		thread.start();
+		mThread = new Thread(macro);
+		mThread.start();
 	}
 
 	public void stopMacro() {
-		thread.interrupt();
+		mThread.interrupt();
 	}
 
 
