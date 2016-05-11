@@ -1,4 +1,4 @@
-package test3;
+package event;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.PointerInfo;
