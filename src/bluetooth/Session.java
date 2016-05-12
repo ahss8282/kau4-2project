@@ -82,10 +82,6 @@ public class Session implements Runnable{
         			log("12");
         			event.stopMacro();
         		}
-<<<<<<< HEAD
-        		/*< JS events  */
-=======
->>>>>>> origin/master
         		else if (data.equals("calidata")){
         			log("13");
         			String[] calData = data.split(",");
@@ -93,13 +89,9 @@ public class Session implements Runnable{
         			for(int i=0;i<4;i++) sdNmean[i] = Double.valueOf(calData[i]);
         			filter = new Kalman(mat, 5, sdNmean, 0.1);
         		}
-<<<<<<< HEAD
         		/*  JS events >*/
         		else { // 필터로 넘기기 진섭(data);
-=======
-        		else{ 
         			log("14");
->>>>>>> origin/master
         			if(filter!=null){
         				String[] accData = data.split(",");
         				filter.prediction(accData[0], accData[1]);
