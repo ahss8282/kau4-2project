@@ -23,6 +23,7 @@ public class Session implements Runnable{
         this.btIn = channel.openInputStream();  
         this.btOut = channel.openOutputStream();  
         this.filter = filter;
+        this.mat = mat;
     }
     
     public void run() {
@@ -32,7 +33,7 @@ public class Session implements Runnable{
             byte[] buff = new byte[512];  
             int n = 0;  
             while ((n = btIn.read(buff)) > 0) {  
-                String data = new String(buff,0,n-1);  
+                String data = new String(buff,0,n);  
                 String[] msgSplit = data.split(",");
                 if(msgSplit.length == 1){
 	        		if (msgSplit[0].equals("lclick")) {
@@ -79,12 +80,13 @@ public class Session implements Runnable{
 	        			filter = new Kalman(mat, 5, sdNmean, 0.1);
 	        		}
 	        		/*  JS events >*/
-                } else { // 필터로 넘기기 진섭(data);
+                } else { // �븘�꽣濡� �꽆湲곌린 吏꾩꽠(data);
         			if(filter!=null){
         				filter.prediction(msgSplit[1], msgSplit[2]);
         				filter.correction();
-        				log(filter.getDispX()+" "+filter.getDispY());
-        				event.movePointer((int)filter.getDispX(), (int)filter.getDispY());
+        				int weight=100;
+        				log((int)(filter.getDispX()*weight)+" "+(int)(filter.getDispY()*weight));
+        				event.movePointer((int)(filter.getDispX()*weight), (int)(filter.getDispY()*weight));
         			} else{ log("we have no calibrated data yet"); }
         		}
                 
