@@ -69,7 +69,7 @@ public class Session implements Runnable{
         		}
         		else if (data.equals("mrunstop")) {
         			event.stopMacro();
-        		} 
+        		}
         		/*< JS events  */
         		else if (data.equals("calidata")){
         			String[] calData = data.split(",");
@@ -79,7 +79,7 @@ public class Session implements Runnable{
         		}
         		/*  JS events >*/
         		else { // 필터로 넘기기 진섭(data);
-        			if(filter==null){
+        			if(filter!=null){
         				String[] accData = data.split(",");
         				filter.prediction(accData[0], accData[1]);
         				filter.correction();
