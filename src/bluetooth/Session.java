@@ -29,57 +29,69 @@ public class Session implements Runnable{
         try {  
         	EventPerformed event = new EventPerformed();
         	
-            byte[] buff = new byte[512];  
+            byte[] buff = new byte[512];
             int n = 0;  
             while ((n = btIn.read(buff)) > 0) {  
                 String data = new String(buff);  
                 
         		if (data.equals("lclick")) {
+        			log("1");
         			event.left_clicked();
         		}
         		else if (data.equals("lpress")) {
+        			log("2");
         			event.pressed();
         		}
         		else if (data.equals("lrelease")) {
+        			log("3");
         			event.released();
         		}
         		else if (data.equals("rclick")) {
+        			log("4");
         			event.right_clicked();
         		}
         		else if (data.equals("double")) {
+        			log("5");
         			event.left_doubleClicked();
         		}
         		else if (data.equals("upwheel")) {
+        			log("6");
         			event.upWheeled();
         		}
         		else if (data.equals("downwheel")) {
+        			log("7");
         			event.downWheeled();
         		}
         		else if (data.equals("mcrestart")) {
+        			log("8");
         			event.startCraeteMacro();
         		}
-        		if (data.equals("mcrestop")) {
+        		else if (data.equals("mcrestop")) {
+        			log("9");
         			event.stopCraeteMacro();
         		}
         		else if (data.equals("mdelete")) {
+        			log("10");
         			event.deleteMacro();
         		}
         		else if (data.equals("mrunstart")) {
+        			log("11");
         			event.runMacro();
         		}
         		else if (data.equals("mrunstop")) {
+        			log("12");
         			event.stopMacro();
-        		} 
-        		/*< JS events  */
+        		}
         		else if (data.equals("calidata")){
+        			log("13");
         			String[] calData = data.split(",");
         			double[] sdNmean = new double[4];
         			for(int i=0;i<4;i++) sdNmean[i] = Double.valueOf(calData[i]);
         			filter = new Kalman(mat, 5, sdNmean, 0.1);
         		}
-        		/*  JS events >*/
-        		else { // 필터로 넘기기 진섭(data);
-        			if(filter==null){
+        		else{ 
+        			log("14");
+        			if(filter!=null){
         				String[] accData = data.split(",");
         				filter.prediction(accData[0], accData[1]);
         				filter.correction();
@@ -88,7 +100,7 @@ public class Session implements Runnable{
         		}
                 
                 log("Receive:"+data);  
-                btOut.write(data.toUpperCase().getBytes());  
+                //btOut.write(data.toUpperCase().getBytes());  
                 btOut.flush();  
             }  
         } catch (Throwable t) {  
